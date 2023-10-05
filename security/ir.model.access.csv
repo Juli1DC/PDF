@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+id_model_types,access_model_types,model_types_planned_money,account.group_account_manager,1,1,1,1
+id_model_line_categories,access_line_categories,model_line_categories,account.group_account_manager,1,1,1,1
+id_model_planned_money,access_model_planned_money,model_planned_money,account.group_account_manager,1,1,1,1
+id_model_planned_money_archive,access_model_planned_money_archive,model_planned_money_archive,account.group_account_manager,1,1,1,1
+access_planned_periodique,planned.periodique,model_planned_periodique,account.group_account_manager,1,1,1,1
+access_lock_planned_money,lock_planned_money,model_lock_planned_money,account.group_account_manager,1,1,1,1

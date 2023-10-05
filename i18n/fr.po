@@ -1,0 +1,206 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* eloapps_cash_flow_forecast
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20201218\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-03-02 09:58+0000\n"
+"PO-Revision-Date: 2022-03-02 09:58+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique__output_amount
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard__output_amount
+msgid "Amount output"
+msgstr "Montant sorti"
+
+#. module: eloapps_cash_flow_forecast
+#: model_terms:ir.ui.view,arch_db:eloapps_cash_flow_forecast.standard_planned_money_view
+#: model_terms:ir.ui.view,arch_db:eloapps_cash_flow_forecast.state_planned_money_view
+msgid "Annuler"
+msgstr "Annuler"
+
+#. module: eloapps_cash_flow_forecast
+#: model_terms:ir.ui.view,arch_db:eloapps_cash_flow_forecast.cash_flow_forecast_search_view
+msgid "Archived"
+msgstr "Archivé"
+
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money__check
+msgid "Check"
+msgstr "Verifier"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique__company_id
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard__company_id
+msgid "Company"
+msgstr "Société"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money__create_uid
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique__create_uid
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard__create_uid
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_types_planned_money__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money__create_date
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique__create_date
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard__create_date
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_types_planned_money__create_date
+msgid "Created on"
+msgstr "Créé sur"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model,name:eloapps_cash_flow_forecast.model_planned_periodique
+msgid "Creation of cyclic lines"
+msgstr "Création de lignes récurrentes"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model,name:eloapps_cash_flow_forecast.model_planned_state
+msgid "Creation of stats lines"
+msgstr "Création de lignes situation"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model,name:eloapps_cash_flow_forecast.model_planned_standard
+msgid "Creation of standard lines"
+msgstr "Création de lignes standard"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money__currency_id
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique__currency_id
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard__currency_id
+msgid "Currency"
+msgstr "Monnaie"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money__display_name
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique__display_name
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard__display_name
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_types_planned_money__display_name
+msgid "Display Name"
+msgstr "Afficher nom"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money__due_date
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard__due_date
+msgid "Due date"
+msgstr "Date effective"
+
+#. module: eloapps_cash_flow_forecast
+#: model_terms:ir.ui.view,arch_db:eloapps_cash_flow_forecast.view_form_model_cash_flow_forecast
+#: model_terms:ir.ui.view,arch_db:eloapps_cash_flow_forecast.view_tree_model_cash_flow_forecast
+msgid "Stat"
+msgstr "Situation initiale"
+
+#. module: eloapps_cash_flow_forecast
+#: model_terms:ir.ui.view,arch_db:eloapps_cash_flow_forecast.cash_flow_forecast_search_view
+msgid "Group By"
+msgstr "Par groupe"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money__id
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique__id
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard__id
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_types_planned_money__id
+msgid "ID"
+msgstr "Identifiant"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields.selection,name:eloapps_cash_flow_forecast.selection__planned_money__date_type__day
+#: model:ir.model.fields.selection,name:eloapps_cash_flow_forecast.selection__planned_periodique__date_type__day
+msgid "Day"
+msgstr "Jour"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique__label
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard__label
+msgid "Label"
+msgstr "Désignation"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money____last_update
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique____last_update
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard____last_update
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_types_planned_money____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification sur"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money__write_uid
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique__write_uid
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard__write_uid
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_types_planned_money__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money__write_date
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique__write_date
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard__write_date
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_types_planned_money__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour sur"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields.selection,name:eloapps_cash_flow_forecast.selection__planned_money__add_line__cyclic_line
+msgid "Cycliq line"
+msgstr "Ligne récurrentes"
+
+#. module: eloapps_cash_flow_forecast
+#: model_terms:ir.ui.view,arch_db:eloapps_cash_flow_forecast.cash_flow_forecast_search_view
+msgid "Name"
+msgstr "Nom"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields.selection,name:eloapps_cash_flow_forecast.selection__planned_money__date_type__week
+#: model:ir.model.fields.selection,name:eloapps_cash_flow_forecast.selection__planned_periodique__date_type__week
+msgid "Week"
+msgstr "Semaine"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money__seq_arch
+msgid "Seq Arch"
+msgstr ""
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.actions.act_window,name:eloapps_cash_flow_forecast.state_planned_money_action
+msgid "Stat"
+msgstr "Etat"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money__state
+msgid "State"
+msgstr "Etat"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique__type_id
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_standard__type_id
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_types_planned_money__name
+msgid "Type"
+msgstr "Compte"
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_money__week
+#: model:ir.model.fields,field_description:eloapps_cash_flow_forecast.field_planned_periodique__week
+msgid "Week"
+msgstr "Semaine"
+
+#. module: eloapps_cash_flow_forecast
+#: model_terms:ir.ui.view,arch_db:eloapps_cash_flow_forecast.cash_flow_forecast_search_view
+msgid "cash_flow_search_view"
+msgstr ""
+
+#. module: eloapps_cash_flow_forecast
+#: model:ir.model,name:eloapps_cash_flow_forecast.model_types_planned_money
+msgid "types"
+msgstr "Types"

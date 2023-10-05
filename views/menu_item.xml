@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <data>
+    <!--menu-->
+    <menuitem id="menu_cash_flow_forecast"
+              name="Trésorerie" />
+
+    <menuitem id="sub_menu_planned_money"
+              name="Trésorerie"
+              parent="menu_cash_flow_forecast"
+              action="model_planned_money_action"
+              sequence="10"/>
+
+    <menuitem id="sub_menu_planned_money_archive"
+              name="Trésorerie archivée"
+              parent="menu_cash_flow_forecast"
+              action="model_planned_money_action_archive"
+              sequence="20"/>
+    
+    <menuitem id="triso_menu_planned_money"
+              name="Ligne de trésorerie"
+              parent="menu_cash_flow_forecast" 
+              sequence="20"/>
+
+    <menuitem id="perio_menu_planned_money"
+              name="Récurrente"
+              parent="triso_menu_planned_money"
+              action="perio_planned_money_action"/>
+  
+  </data>
+</odoo>

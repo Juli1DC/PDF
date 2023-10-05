@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--     ================ view  form  peridique ==============    -->
+        <record id="lock_planned_money_form_view" model="ir.ui.view">
+            <field name="name">lock.planned.money.view</field>
+            <field name="model">lock.planned.money</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="lines" widget="one2many" mode="tree" nolabel="1" readonly="0">
+                        <tree editable="bottom">
+                            <field name="label" readonly="1" />
+                            <field name="partner_id" readonly="1" />
+                            <field name="type_id" readonly="1" />
+                            <field name="date" readonly="1" />
+                            <field name="predicted_date" readonly="1" />
+                            <field name="due_date" />
+                        </tree>
+                    </field>
+                    <footer>
+                        <button name="confirm_date" string="Confirmer" type="object" class="oe_highlight" />
+                        <button special="cancel" string="Annuler" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action de Verrouillage-->
+        <record id="lock_button_action_wizard" model="ir.actions.act_window">
+            <field name="name">Vérrouiller</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">lock.planned.money</field>
+            <field name="view_id" ref="lock_planned_money_form_view" />
+            <field name="context">{'default_lines': active_ids}</field>
+            <field name="binding_model_id" ref="eloapps_cash_flow_forecast.model_planned_money" />
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

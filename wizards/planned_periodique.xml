@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <data>
+<!--       ================ view  form  peridique ============== -->  
+         <record model="ir.ui.view" id="perio_planned_money_view">
+           <field name="name">Wizard planned periodique</field>
+           <field name="model">planned.periodique</field>
+           <field name="arch" type="xml">
+             <form>
+               <sheet>
+                 <group>
+                  <group>
+                   <field name="label" attrs="{'required': [('add_line','=', 'stat_line')]}"/>
+                   <field name="add_line" />
+                   <field name="partner_id" attrs="{'invisible':[('add_line','=','stat_line')]}" />
+                   <field name="type_id" required="1"/>
+                   <field name="situation" attrs="{'invisible':[('add_line','=','standard_line')],'required': [('add_line','=', 'stat_line')]}" />
+                   
+                   <field name="input_amount" attrs="{'invisible':[('add_line','=','stat_line')]}" />
+                   <field name="output_amount" attrs="{'invisible':[('add_line','=','stat_line')]}" />
+                 </group>
+                    <group>
+                   <field name="predicted_date" invisible="1" />
+                   <field name="start_date"/>
+                   <field name="end_date"/>
+                   <label for="date_type"/>
+                    <div class="o_row" name="wage">
+                    <field name="date_type" string="Réccurente" required="1"/>
+                    <span> <field name="week" attrs="{'required':[('date_type','=','week')],'invisible':['|','|',('date_type','=','month'),('date_type','=','day'),('date_type','=',False)]}"/></span>
+                    <span> <field name="month" attrs="{'required':[('date_type','=','month')],'invisible':['|','|',('date_type','=','week'),('date_type','=','day'),('date_type','=',False)]}"/></span>
+                    </div>
+                </group>
+
+                 </group>
+                 <footer>
+                     <button name="create_periodique" string="Enregister" type="object" class="oe_highlight"/>
+                     <button  special="cancel" string="Annuler" class="btn-secondary"/>
+                 </footer>
+               </sheet>
+             </form>
+           </field>
+         </record>
+         
+<!-- ================ action  wizard peridique ============== -->     
+ <record id="perio_planned_money_action" model="ir.actions.act_window">
+            <field name="name">Récurrentes</field>
+            <field name="res_model">planned.periodique</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="perio_planned_money_view"/>
+            <field name="target">new</field>
+        </record>
+   </data>
+</odoo>
