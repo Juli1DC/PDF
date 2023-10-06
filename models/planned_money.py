@@ -1,6 +1,6 @@
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-from datetime import timedelta ,datetime
+from datetime import timedelta ,datetime, date
 from odoo.exceptions import ValidationError
 
 class MoneyAmount(models.Model):
@@ -55,6 +55,8 @@ class MoneyAmount(models.Model):
     groupe = fields.Char(string="Groupe",readonly=False, required=True, copy=False, default ="000")
     lock_status = fields.Selection([('locked','✅'),('in_progres','⬅️'),('unlocked','')], default='unlocked',compute='_compute_status')
     category_id = fields.Many2one('line.categories' , string = "Catégorie")
+    invoice_id = fields.Many2one('account.move', string='N° de Facture', help='Lien vers la facture associée')
+
     
     @api.depends('state')
     def _compute_status(self):
@@ -336,3 +338,184 @@ class MoneyAmount(models.Model):
     def onchange_due_date(self):
         if self.state in ['in_progres','predicted']:
             self.date = self.predicted_date
+    
+    #Montant automatique facture
+    @api.onchange('invoice_id')
+    def _onchange_invoice_id(self):
+        # Réinitialisez les montants et les dates
+        self.input_amount = 0.0
+        self.output_amount = 0.0
+        self.predicted_date = False
+        self.due_date = False
+        self.category_id = 2
+
+        if self.invoice_id:
+            # Si c'est une facture fournisseur
+            if self.invoice_id.move_type == 'in_invoice':
+                self.output_amount = self.invoice_id.amount_total  # Montant de sortie pour les dépenses
+                self.label = 'Facture fournisseur'
+                
+            # Si c'est une facture client
+            elif self.invoice_id.move_type == 'out_invoice':
+                self.input_amount = self.invoice_id.amount_total  # Montant d'entrée pour les entrées
+                self.label = 'Facture client'
+
+            # Mettez à jour les champs de date avec la date d'échéance de la facture
+            self.predicted_date = self.invoice_id.invoice_date_due
+            self.due_date = self.invoice_id.invoice_date_due
+            self.type_id = 1
+            self.partner_id = self.invoice_id.partner_id
+
+    @api.model
+    def create_or_update_vat_lines(self):
+        today = date.today()
+        first_day_of_current_month = date(today.year, today.month, 1)
+        last_day_of_previous_month = first_day_of_current_month - timedelta(days=1)
+        first_day_of_previous_month = date(last_day_of_previous_month.year, last_day_of_previous_month.month, 1)
+
+        # Calculer la somme de la TVA pour le mois précédent
+        previous_month_vat = sum(self.env['account.move'].search([
+            ('invoice_date_due', '>=', first_day_of_previous_month),
+            ('invoice_date_due', '<=', last_day_of_previous_month),
+        ]).mapped('amount_tax_signed'))
+
+        # Calculer la somme de la TVA pour le mois en cours
+        current_month_vat = sum(self.env['account.move'].search([
+            ('invoice_date_due', '>=', first_day_of_current_month),
+            ('invoice_date_due', '<', today),  # Jusqu'à la date d'aujourd'hui
+        ]).mapped('amount_tax_signed'))
+
+        # Traitement pour le mois précédent
+        vals_previous_month = {
+            'predicted_date': date(today.year, today.month, 15),
+            'state': 'predicted',
+            'label': 'TVA',
+            'add_line': 'standard_line',
+            'type_id': 1,
+            'category_id': 3
+        }
+        if previous_month_vat < 0:
+            vals_previous_month['output_amount'] = abs(previous_month_vat)
+        else:
+            vals_previous_month['input_amount'] = previous_month_vat
+
+        existing_line_current_month = self.search([('predicted_date', '=', date(today.year, today.month, 15)), ('label', '=', 'TVA')], limit=1)
+        if existing_line_current_month:
+            existing_line_current_month.write(vals_previous_month)
+        else:
+            self.create(vals_previous_month)
+
+        # Traitement pour le mois en cours
+        next_month = (today.replace(day=28) + timedelta(days=4)).replace(day=1)  # Trouver le premier jour du mois suivant
+        vals_current_month = {
+            'predicted_date': date(next_month.year, next_month.month, 15),
+            'state': 'predicted',
+            'label': 'TVA',
+            'add_line': 'standard_line',
+            'type_id': 1,
+            'category_id': 3
+        }
+        if current_month_vat < 0:
+            vals_current_month['output_amount'] = abs(current_month_vat)
+        else:
+            vals_current_month['input_amount'] = current_month_vat
+
+        existing_line_next_month = self.search([('predicted_date', '=', date(next_month.year, next_month.month, 15)), ('label', '=', 'TVA')], limit=1)
+        if existing_line_next_month:
+            existing_line_next_month.write(vals_current_month)
+        else:
+            self.create(vals_current_month)
+    
+    @api.model   
+    def create_salary_and_urssaf_lines(self):
+        today = date.today()
+        month = today.month
+
+        # Vérifiez si nous sommes en juin ou en décembre
+        increase_percentage = 1.5 if month in [6, 12] else 1
+
+        # Définissez les montants pour le salaire et l'Urssaf
+        base_salary_amount = 3646  # Montant de base pour le salaire
+        base_urssaf_amount = 2691  # Montant de base pour l'Urssaf
+
+        # Appliquez l'augmentation si nécessaire
+        salary_amount = base_salary_amount * increase_percentage
+        urssaf_amount = base_urssaf_amount * increase_percentage
+
+       # Vérifiez si un enregistrement "Salaires" existe pour le 1er du mois en cours
+        existing_salary_record = self.search([
+            ('predicted_date', '=', date(today.year, today.month, 1)),
+            ('label', '=', 'Salaires')
+        ])
+        if not existing_salary_record:
+            # Créer une ligne de trésorerie pour le salaire
+            self.create({
+                'output_amount': salary_amount,
+                'predicted_date': date(today.year, today.month, 1),  # 1er du mois en cours
+                'state': 'predicted',
+                'label': 'Salaires',
+                'add_line': 'standard_line',
+                'type_id': 1,
+                'category_id': 3
+            })
+
+        # Vérifiez si un enregistrement "URSSAF" existe pour le 15 du mois en cours
+        existing_urssaf_record = self.search([
+            ('predicted_date', '=', date(today.year, today.month, 15)),
+            ('label', '=', 'URSSAF')
+        ])
+        if not existing_urssaf_record:
+            # Créer une ligne de trésorerie pour l'Urssaf
+            self.create({
+                'output_amount': urssaf_amount,
+                'predicted_date': date(today.year, today.month, 15),  # 15 du mois en cours
+                'state': 'predicted',
+                'label': 'URSSAF',
+                'add_line': 'standard_line',
+                'type_id': 1,
+                'category_id': 3
+            })
+
+    @api.model
+    def handle_treasury_line(self, invoice_id):
+        # Récupérer l'enregistrement de la facture
+        record = self.env['account.move'].browse(invoice_id)
+
+        if record.payment_state == 'not_paid':
+            # Vérifiez si une ligne de trésorerie existe déjà pour cette facture
+            treasury_line = self.search([('invoice_id', '=', record.id)])
+            
+            # Déterminez si c'est une facture client ou fournisseur
+            if record.move_type == 'out_invoice':  # Facture client
+                field_to_update = 'input_amount'
+                label = 'Facture Client'
+            elif record.move_type == 'in_invoice':  # Facture fournisseur
+                field_to_update = 'output_amount'
+                label = 'Facture Fournisseur'
+            else:
+                return  # Si ce n'est ni une facture client ni une facture fournisseur, sortez de la fonction
+
+            if not treasury_line:
+                # Créez une nouvelle ligne de trésorerie si elle n'existe pas
+                self.create({
+                    'invoice_id': record.id,
+                    field_to_update: record.amount_total,
+                    'predicted_date': record.invoice_date_due,
+                    'state': 'predicted',
+                    'label': label,
+                    'add_line': 'standard_line',
+                    'type_id': 1,
+                    'category_id': 3
+                })
+            else:
+                # Mettez à jour la ligne de trésorerie existante si nécessaire
+                treasury_line.write({
+                    field_to_update: record.amount_total,
+                    'predicted_date': record.invoice_date_due,
+                    'state': 'predicted',
+                    'label': label,
+                    'add_line': 'standard_line',
+                    'type_id': 1,
+                    'category_id': 3
+                })
+
