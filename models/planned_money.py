@@ -316,6 +316,7 @@ class MoneyAmount(models.Model):
     """
     this function will be called when click in button
     """
+    @api.model
     def update_treeview(self, model_name, active_id):
         res = self.env['planned.money'].search([('company_id','=',self.env.company.id)])
         for r in res:
@@ -365,6 +366,8 @@ class MoneyAmount(models.Model):
             self.due_date = self.invoice_id.invoice_date_due
             self.type_id = 1
             self.partner_id = self.invoice_id.partner_id
+            self.update_treeview('planned.money', self.id)
+
 
     @api.model
     def create_or_update_vat_lines(self):
@@ -425,7 +428,9 @@ class MoneyAmount(models.Model):
             existing_line_next_month.write(vals_current_month)
         else:
             self.create(vals_current_month)
-    
+        
+        self.update_treeview('planned.money', self.id)
+
     @api.model   
     def create_salary_and_urssaf_lines(self):
         today = date.today()
@@ -475,6 +480,7 @@ class MoneyAmount(models.Model):
                 'type_id': 1,
                 'category_id': 3
             })
+        self.update_treeview('planned.money', self.id)
 
     @api.model
     def handle_treasury_line(self, invoice_id):
@@ -518,4 +524,5 @@ class MoneyAmount(models.Model):
                     'type_id': 1,
                     'category_id': 3
                 })
+        self.update_treeview('planned.money', self.id)
 
